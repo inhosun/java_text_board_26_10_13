@@ -12,6 +12,8 @@ public class Main {
     System.out.println("== 자바 게시판 시작 ==");
     boolean run = true;
 
+    int lastId = 0;
+
     while(run) {
         System.out.println("명령");
         String cmd = sc.nextLine();
@@ -27,8 +29,9 @@ public class Main {
                 System.out.println("내용 : ");
                 String content = sc.nextLine();
 
-                int id = 1;
+                int id = ++lastId;
                 System.out.printf("%d번 게시물이 등록 되었습니다 \n",id);
+
 
             }
             case "exit" -> {
