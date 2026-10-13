@@ -1,6 +1,8 @@
 
 package com.sbs;
 
+import com.sbs.domain.article.Article;
+
 import java.util.Scanner;
 
 //TIP 코드를 <b>실행</b>하려면 <shortcut actionId="Run"/>을(를) 누르거나
@@ -30,6 +32,13 @@ public class Main {
                 String content = sc.nextLine();
 
                 int id = ++lastId;
+
+                Article article = new Article();
+                article.id = id;
+                article.title = title;
+                article.content = content;
+
+                System.out.println("생성된 객체 " + article);
                 System.out.printf("%d번 게시물이 등록 되었습니다 \n",id);
 
 
