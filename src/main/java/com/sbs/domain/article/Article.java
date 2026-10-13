@@ -3,15 +3,15 @@ package com.sbs.domain.article;
 public class Article {
     public int id;
 
+    public String title;
+
+    public String content;
+
     @Override
     public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+       // return "{id : %d , title : %s , content : %s}".formatted(id, title, content);
+        return String.format("{id : %d , title : %s , content : %s}", id, title, content);
     }
 
-    public String title;
-    public String content;
+
 }
