@@ -10,16 +10,36 @@ public class Main {
     Scanner sc = new Scanner(System.in);
 
     System.out.println("== 자바 게시판 시작 ==");
-    while(true) {
+    boolean run = true;
+
+    while(run) {
         System.out.println("명령");
         String cmd = sc.nextLine();
 
         System.out.println("입력 받은 명령어 " + cmd);
 
-        if(cmd.equals("exit")) {
-            System.out.println("프로그램 종료");
-            break;
+
+        switch (cmd) {
+            case "/usr/article/write" -> {
+                System.out.println("제목 :  ");
+                String title = sc.nextLine();
+
+                System.out.println("내용 : ");
+                String content = sc.nextLine();
+
+                int id = 1;
+                System.out.printf("%d번 게시물이 등록 되었습니다 \n",id);
+
+            }
+            case "exit" -> {
+                run = false ;
+            }
+            default -> {
+                System.out.println("명령어 확인 후 다시 입력해 주세요!");
+
+            }
         }
+
 
     }
     System.out.println("== 자바 게시판 종료 ==");
