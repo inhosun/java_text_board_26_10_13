@@ -3,6 +3,7 @@ package com.sbs.domain.article.global.base.controller;
 import com.sbs.domain.article.controller.ArticleController;
 import com.sbs.domain.article.dto.Article;
 import com.sbs.domain.article.global.base.container.Container;
+import com.sbs.domain.article.global.base.rq.Rq;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,8 +15,10 @@ public class SystemController {
 
     private ArticleController articleController;
 
+
     public SystemController() {
         articleController = Container.articleController;
+
     }
 
     public  void run() {
@@ -27,13 +30,23 @@ public class SystemController {
         boolean run = true;
 
         while(run) {
+            Rq rq = new Rq();
             System.out.println("명령");
             String cmd = Container.sc.nextLine();
 
-            if(cmd.trim().isEmpty()) {
+            rq.setCommand(cmd);
+            rq.getActionPath();
+
+
+            if(rq.getUrl().trim().isEmpty()) {
                 System.out.println("명령어를 입력하세요");
                 continue;
             }
+            if(!rq.getUrlPathUserType().startsWith("usr")) {
+                System.out.println("명령어를 잘 못 입력하였습니다.");
+                continue;
+            }
+            /*
             String[] urlBits = cmd.trim().split("/");
 
             String urlPathUserType = null;
@@ -58,14 +71,18 @@ public class SystemController {
             if(!urlPathUserType.startsWith("usr")) {
                 System.out.println("명령어를 잘 못 입력하였습니다.");
             }
+*/
+            System.out.println(rq.getUrlPathUserType());
+            System.out.println(rq.getUrlPathControllerName());
+            System.out.println(rq.getUrlPathUserAction());
 
-            switch (urlPathUserType) {
+            switch (rq.getUrlPathUserType()) {
                 case  "usr" -> {
-                    switch (urlPathUserResource) {
+                    switch (rq.getUrlPathControllerName()) {
                         case "article" -> {
-                            switch (urlPathUserAction) {
+                            switch (rq.getUrlPathUserAction()) {
                                 case "write" -> articleController.doWrite();
-                                case "detail" -> articleController.showDetail(urlPathVariable);
+                                case "detail" -> articleController.showDetail(rq);
                                 case "list" -> articleController.showList();
                             }
                         }

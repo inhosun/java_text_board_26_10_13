@@ -45,8 +45,7 @@ public class Rq {
         try {
            id = Integer.parseInt(urlBits[4]) ;
            return id;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("id를 숫자 형태로 입력하세요");
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             return id;
         }
     }

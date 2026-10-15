@@ -2,6 +2,7 @@ package com.sbs.domain.article.controller;
 
 import com.sbs.domain.article.dto.Article;
 import com.sbs.domain.article.global.base.container.Container;
+import com.sbs.domain.article.global.base.rq.Rq;
 import com.sbs.domain.article.service.ArticleService;
 
 import java.util.ArrayList;
@@ -33,28 +34,14 @@ public class ArticleController {
         System.out.printf("%d번 게시물이 등록 되었습니다 \n",article.getId());
     }
 
-    public void showDetail(String urlPathVariable) {
+    public void showDetail(Rq rq) {
 
-        int id = 0;
+        int id = rq.getPathVariable();
 
-        // 1. 숫자로 변환 가능한지 검사
-        if (urlPathVariable != null) {
-            try {
-                id = Integer.parseInt(urlPathVariable);
-            } catch (NumberFormatException e) {
-                System.out.println("id를 숫자 형식으로 입력하세요");
-                return; // 에러 발생 시 메서드 즉시 종료
-            }
-        }
-
-        /*
-        List<Article> articles = articleService.getArticles();
-
-        if(articles.isEmpty()) {
-            System.out.println(" 게시물이 존재하지 않습니다");
+        if(id == 0) {
+            System.out.println("올바를 값을 입력하세요");
             return;
         }
-*/
         Article article = articleService.findById(id);
 
 
