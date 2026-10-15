@@ -2,6 +2,7 @@ package com.sbs.domain.article.global.base.controller;
 
 import com.sbs.domain.article.controller.ArticleController;
 import com.sbs.domain.article.dto.Article;
+import com.sbs.domain.article.global.base.container.Container;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,12 +15,12 @@ public class SystemController {
     private ArticleController articleController;
 
     public SystemController() {
-        articleController = new ArticleController();
+        articleController = Container.articleController;
     }
 
     public  void run() {
 
-        Scanner sc = new Scanner(System.in);
+
 
         System.out.println("== 자바 게시판 시작 ==");
 
@@ -27,7 +28,12 @@ public class SystemController {
 
         while(run) {
             System.out.println("명령");
-            String cmd = sc.nextLine();
+            String cmd = Container.sc.nextLine();
+
+            if(cmd.trim().isEmpty()) {
+                System.out.println("명령어를 입력하세요");
+                continue;
+            }
             String[] urlBits = cmd.trim().split("/");
 
             String urlPathUserType = null;
@@ -41,8 +47,16 @@ public class SystemController {
                 urlPathUserAction = urlBits[3];
             }
 
+            if(urlBits.length < 4) {
+                System.out.println("올바를 URL 형식이 아닙니다.");
+                continue;
+            }
             if(urlBits.length > 4) {
                 urlPathVariable = urlBits[4];
+            }
+
+            if(!urlPathUserType.startsWith("usr")) {
+                System.out.println("명령어를 잘 못 입력하였습니다.");
             }
 
             switch (urlPathUserType) {
@@ -141,7 +155,7 @@ public class SystemController {
 
 
 
-        sc.close();
+        Container.sc.close();
     }
 
 

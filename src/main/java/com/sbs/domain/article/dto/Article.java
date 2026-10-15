@@ -1,12 +1,29 @@
 package com.sbs.domain.article.dto;
 
 public class Article {
-    public int id;
 
-    public String title;
+    private static int lastId;
+    private int id;
 
-    public String content;
+    private String title;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    private String content;
+
+    public Article(String title, String content) {
+        this(++lastId, title, content);
+    }
     public Article(int id, String title, String content) {
         this.id = id;
         this.title = title;
