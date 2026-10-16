@@ -44,4 +44,18 @@ public class ArticleRepository {
                 .forEach(i-> articles.add(new Article(i,"제목"+i, "내용"+i)));
 
     }
+
+    public void modify(int id, String title, String content) {
+        Article article = findById(id);
+        if(article == null) return;
+        article.setTitle(title);
+        article.setContent(content);
+    }
+
+    public void remove(int id) {
+        Article article = findById(id);
+        if(article == null) return;
+       // articles.removeIf(s-> s.getId() == id);
+        articles.remove(article);
+    }
 }

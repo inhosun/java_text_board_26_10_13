@@ -17,8 +17,6 @@ public class SystemController {
 
 
     public SystemController() {
-        articleController = Container.articleController;
-
     }
 
     public  void run() {
@@ -46,59 +44,20 @@ public class SystemController {
                 System.out.println("명령어를 잘 못 입력하였습니다.");
                 continue;
             }
-            /*
-            String[] urlBits = cmd.trim().split("/");
+            
+            BaseController baseController = getControllerByRequestUrl(rq);
 
-            String urlPathUserType = null;
-            String urlPathUserResource = null;
-            String urlPathUserAction = null;
-            String urlPathVariable = null;
-
-            if(urlBits.length != 0) {
-                urlPathUserType = urlBits[1];
-                urlPathUserResource = urlBits[2];
-                urlPathUserAction = urlBits[3];
+            if(baseController != null) {
+                baseController.doAction(rq);
             }
 
-            if(urlBits.length < 4) {
-                System.out.println("올바를 URL 형식이 아닙니다.");
-                continue;
+            if(cmd.trim().equals("exit")) {
+                System.out.println("프로그램 종료 합니다");
+                System.out.println("자바 게시판 종료");
+                break;
+            } else {
+                System.out.println("명령어를 입력하세요");
             }
-            if(urlBits.length > 4) {
-                urlPathVariable = urlBits[4];
-            }
-
-            if(!urlPathUserType.startsWith("usr")) {
-                System.out.println("명령어를 잘 못 입력하였습니다.");
-            }
-*/
-            System.out.println(rq.getUrlPathUserType());
-            System.out.println(rq.getUrlPathControllerName());
-            System.out.println(rq.getUrlPathUserAction());
-
-            switch (rq.getUrlPathUserType()) {
-                case  "usr" -> {
-                    switch (rq.getUrlPathControllerName()) {
-                        case "article" -> {
-                            switch (rq.getUrlPathUserAction()) {
-                                case "write" -> articleController.doWrite();
-                                case "detail" -> articleController.showDetail(rq);
-                                case "list" -> articleController.showList();
-                            }
-                        }
-                    }
-                }
-                case "exit" -> {
-                    System.out.println("프로그램을 종료 합니다.");
-                    System.out.println("== 자바 게시판 종료 ==");
-                    run = false;
-                }
-                default -> {
-                    System.out.println("명령어 확인 후 다시 입력해 주세요!");
-
-                }
-            }
-
             System.out.println("입력 받은 명령어 " + cmd);
 
 
@@ -107,6 +66,22 @@ public class SystemController {
 
 
         Container.sc.close();
+    }
+
+    private BaseController getControllerByRequestUrl(Rq rq) {
+        switch (rq.getUrlPathUserType()) {
+            case  "usr" -> {
+                switch (rq.getUrlPathControllerName()) {
+                    case "article" -> {
+                       return Container.articleController;
+                    }
+
+
+                }
+            }
+
+        }
+        return null;
     }
 
 

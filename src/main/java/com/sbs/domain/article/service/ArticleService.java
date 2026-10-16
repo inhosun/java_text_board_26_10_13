@@ -34,4 +34,14 @@ public class ArticleService {
         return articleRepository.findById(id);
 
     }
+
+    public void modify(int id, String title, String content) {
+         articleRepository.modify(id, title, content);
+         System.out.printf("%d 게시물을 수정하였습니다 \n/u", id);
+    }
+
+    public void remove(int id) {
+        articleRepository.remove(id);
+        System.out.printf("%d 게시물을 삭하였습니다 \n/u", id);
+    }
 }

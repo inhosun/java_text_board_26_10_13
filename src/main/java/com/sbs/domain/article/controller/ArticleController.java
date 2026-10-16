@@ -2,6 +2,7 @@ package com.sbs.domain.article.controller;
 
 import com.sbs.domain.article.dto.Article;
 import com.sbs.domain.article.global.base.container.Container;
+import com.sbs.domain.article.global.base.controller.BaseController;
 import com.sbs.domain.article.global.base.rq.Rq;
 import com.sbs.domain.article.service.ArticleService;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class ArticleController {
+public class ArticleController implements BaseController {
 
     private ArticleService articleService;
 
@@ -76,4 +77,72 @@ public class ArticleController {
     }
 
 
+    @Override
+    public void doAction(Rq rq) {
+        switch(rq.getUrlPathUserAction()) {
+            case "write" -> {
+                doWrite();
+            }
+            case "detail" -> {
+                showDetail(rq);
+            }
+            case "list" -> {
+                showList();
+            }
+            case "modify" -> {
+                doModifiy(rq);
+            }
+            case "delete" -> {
+                doDelete(rq);
+            }
+
+        }
+    }
+
+    private void doDelete(Rq rq) {
+
+        int id = rq.getPathVariable();
+
+        if(id == 0) {
+            System.out.println("올바를 값을 입력하세요");
+            return;
+        }
+        Article article = articleService.findById(id);
+
+
+        // 3. 게시물이 존재하지 않는 경우 처리
+        if (article == null) {
+            System.out.printf("%d번 게시물을 찾을 수 없습니다.\n", id);
+            return; // 게시물이 없으므로 여기서 종료
+        }
+
+        articleService.remove(id);
+    }
+
+    private void doModifiy(Rq rq) {
+
+        int id = rq.getPathVariable();
+
+        if(id == 0) {
+            System.out.println("올바를 값을 입력하세요");
+            return;
+        }
+        Article article = articleService.findById(id);
+
+
+        // 3. 게시물이 존재하지 않는 경우 처리
+        if (article == null) {
+            System.out.printf("%d번 게시물을 찾을 수 없습니다.\n", id);
+            return; // 게시물이 없으므로 여기서 종료
+        }
+
+        System.out.println("제목 :  ");
+        String title = Container.sc.nextLine();
+
+        System.out.println("내용 : ");
+        String content = Container.sc.nextLine();
+
+        articleService.modify(id,title,content);
+
+    }
 }

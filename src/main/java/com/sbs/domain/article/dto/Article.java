@@ -37,4 +37,9 @@ public class Article {
     }
 
 
+    public Article edit(Article article, String title, String content) {
+        article.setTitle(title);
+        article.setContent(content);
+        return article;
+    }
 }
