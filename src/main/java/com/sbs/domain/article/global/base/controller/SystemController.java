@@ -4,6 +4,7 @@ import com.sbs.domain.article.controller.ArticleController;
 import com.sbs.domain.article.dto.Article;
 import com.sbs.domain.article.global.base.container.Container;
 import com.sbs.domain.article.global.base.rq.Rq;
+import com.sbs.domain.member.controller.MemberController;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,6 +16,8 @@ public class SystemController {
 
     private ArticleController articleController;
 
+    private MemberController memberController;
+
 
     public SystemController() {
     }
@@ -22,13 +25,13 @@ public class SystemController {
     public  void run() {
 
 
-
+        Rq rq = new Rq();
         System.out.println("== 자바 게시판 시작 ==");
 
         boolean run = true;
 
         while(run) {
-            Rq rq = new Rq();
+
             System.out.println("명령");
             String cmd = Container.sc.nextLine();
 
@@ -74,6 +77,9 @@ public class SystemController {
                 switch (rq.getUrlPathControllerName()) {
                     case "article" -> {
                        return Container.articleController;
+                    }
+                    case "member" -> {
+                        return Container.memberController;
                     }
 
 

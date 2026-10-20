@@ -1,28 +1,37 @@
 package com.sbs.domain.article.global.base.rq;
 
+import com.sbs.domain.article.global.Session.Session;
 import lombok.Getter;
 import lombok.Setter;
 
 public class Rq {
     @Getter
     @Setter
-    String url;
+    public String url;
 
     @Getter
     @Setter
-    String urlPathUserType;
+    public String urlPathUserType;
 
     @Getter
     @Setter
-    String urlPathControllerName;
+    public String urlPathControllerName;
 
     @Getter
     @Setter
-    String urlPathUserAction;
+    public String urlPathUserAction;
 
     @Getter
     @Setter
-    String urlPathVariable;
+    public String urlPathVariable;
+
+    public Session session;
+
+    private String loginedMember = "loginedMember";
+
+    public Rq() {
+        session = new Session();
+    }
 
     public void setCommand(String url) {
         this.url = url;
@@ -48,5 +57,29 @@ public class Rq {
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             return id;
         }
+    }
+
+    public boolean isLogined() {
+        return hasAttr(loginedMember);
+    }
+
+    public boolean isLogout() {
+        return !hasAttr(loginedMember);
+    }
+
+    public void setAttr(String key, Object value) {
+        session.setAttribute(key, value);
+    }
+
+    public Object getAttr(String key) {
+        return session.getAttribute(key);
+    }
+
+    public void removeAttr(String key) {
+        session.removeAttribute(key);
+    }
+
+    public boolean hasAttr(String key) {
+        return session.hasAttribute(key);
     }
 }
