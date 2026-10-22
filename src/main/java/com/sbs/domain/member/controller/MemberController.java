@@ -30,26 +30,34 @@ public class MemberController implements BaseController {
             case "logout" -> {
                 doLogout(rq);
             }
+            case "my-page" -> {
+                showMyPage(rq);
+            }
 
 
         }
     }
 
-    private void doLogout(Rq rq) {
+    private void showMyPage(Rq rq) {
         if(rq.isLogout()) {
-            System.out.println("이미 로그아웃 되어 있습니다.");
+            System.out.println("로그인 후 이용 하십시요");
             return;
         }
+        Member member = (Member)rq.getAttr("loginedMember");
+        System.out.printf("======= 마이페이지 (%s) ========= \n",member.getUsername());
+        System.out.printf("아이디 : %s \n",member.getUsername());
+        System.out.printf("이름 : %s \n",member.getName());
+
+
+    }
+
+    private void doLogout(Rq rq) {
         rq.removeAttr("loginedMember");
         System.out.println("로그아웃 되었습니다");
     }
 
     private void doLogin(Rq rq) {
 
-        if(rq.isLogined()) {
-            System.out.println("이미 로그인 되어 있습니다!");
-            return;
-        }
         String username;
         String password;
         Member member;
@@ -93,7 +101,7 @@ public class MemberController implements BaseController {
                 System.out.printf("비밀번호가 틀렸습니다 시도횟수(%d/%d) \n", tryCount, tryMaxCount);
             }
             rq.setAttr("loginedMember", member);
-            System.out.printf("%s님 로그인 되었습니다", member.getName());
+            System.out.printf("%s님 로그인 되었습니다 \n", member.getName());
             break;
         }
 

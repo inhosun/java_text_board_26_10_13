@@ -5,6 +5,7 @@ import com.sbs.domain.article.global.base.container.Container;
 import com.sbs.domain.article.global.base.controller.BaseController;
 import com.sbs.domain.article.global.base.rq.Rq;
 import com.sbs.domain.article.service.ArticleService;
+import com.sbs.domain.member.service.MemberService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +15,16 @@ import java.util.stream.IntStream;
 public class ArticleController implements BaseController {
 
     private ArticleService articleService;
+    private MemberService memberService;
 
     public ArticleController() {
 
         articleService = Container.articleService;
-
+        memberService = Container.memberService;
 
     }
 
-    public void doWrite() {
+    public void doWrite(Rq rq) {
 
         System.out.println("제목 :  ");
         String title = Container.sc.nextLine();
@@ -30,7 +32,8 @@ public class ArticleController implements BaseController {
         System.out.println("내용 : ");
         String content = Container.sc.nextLine();
 
-        Article article = articleService.write(title, content);
+        int memberId = rq.getLoginedMember().getId();
+        Article article = articleService.write(title, content, memberId);
 
         System.out.printf("%d번 게시물이 등록 되었습니다 \n",article.getId());
     }
@@ -52,11 +55,13 @@ public class ArticleController implements BaseController {
             return; // 게시물이 없으므로 여기서 종료
         }
 
+        String writerName = memberService.findById(article.getMemberId()).getUsername();
         // 4. 정상 출력
         System.out.printf("==%d번 게시물 상세보기==\n", article.getId());
         System.out.printf("번호 : %d\n", article.getId());
         System.out.printf("제목 : %s\n", article.getTitle());
         System.out.printf("내용 : %s\n", article.getContent());
+        System.out.printf("작성자 : %s\n", writerName);
 
     }
 
@@ -69,11 +74,14 @@ public class ArticleController implements BaseController {
             return;
         }
         System.out.println("== 게시물 리스트 ==");
-        System.out.println("순번  ||  제목  ||   내용");
+        System.out.println("순번  ||  제목  ||   내용  || 작성자");
         articles.stream()
-                .forEach(article->
-                        System.out.printf("%d   %s  %s\n", article.getId(),
-                            article.getTitle(), article.getContent()));
+                .forEach(article-> {
+                        String writerName = memberService.findById(article.getMemberId()).getUsername();
+                            System.out.printf("%d   %s  %s  %s\n", article.getId(),
+                            article.getTitle(), article.getContent(), writerName);
+
+                });
     }
 
 
@@ -81,7 +89,7 @@ public class ArticleController implements BaseController {
     public void doAction(Rq rq) {
         switch(rq.getUrlPathUserAction()) {
             case "write" -> {
-                doWrite();
+                doWrite(rq);
             }
             case "detail" -> {
                 showDetail(rq);

@@ -2,6 +2,8 @@ package com.sbs.domain.article.global.base.container;
 
 import com.sbs.domain.article.controller.ArticleController;
 import com.sbs.domain.article.global.Session.Session;
+import com.sbs.domain.article.global.base.intercepter.NeedLogOutIntercepter;
+import com.sbs.domain.article.global.base.intercepter.NeedLoginIntercepter;
 import com.sbs.domain.article.global.base.rq.Rq;
 import com.sbs.domain.article.repository.ArticleRepository;
 import com.sbs.domain.article.service.ArticleService;
@@ -21,6 +23,8 @@ public class Container {
     public static MemberService memberService;
     public static MemberRepository memberRepository;
     public static Session session;
+    public static NeedLoginIntercepter needLoginIntercepter;
+    public static NeedLogOutIntercepter needLogOutIntercepter;
     public static Rq rq;
 
     static {
@@ -31,6 +35,8 @@ public class Container {
         memberRepository = new MemberRepository();
         memberService = new MemberService();
         memberController = new MemberController();
+        needLoginIntercepter = new NeedLoginIntercepter();
+        needLogOutIntercepter = new NeedLogOutIntercepter();
         session = new Session();
 
         rq = new Rq();

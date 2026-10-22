@@ -13,27 +13,28 @@ public class Article {
     private int id;
 
     private String title;
-
     private String content;
+    private int memberId;
 
     static {
         lastId = 0;
     }
 
-    public Article(String title, String content) {
-        this(++lastId, title, content);
+    public Article(String title, String content, int memberId) {
+        this(++lastId, title, content,memberId);
     }
-    public Article(int id, String title, String content) {
+    public Article(int id, String title, String content, int memberId) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.memberId = memberId;
     }
 
 
     @Override
     public String toString() {
        // return "{id : %d , title : %s , content : %s}".formatted(id, title, content);
-        return String.format("{id : %d , title : %s , content : %s}", id, title, content);
+        return String.format("{id : %d , title : %s , content : %s , writerId : %d}", id, title, content, memberId);
     }
 
 

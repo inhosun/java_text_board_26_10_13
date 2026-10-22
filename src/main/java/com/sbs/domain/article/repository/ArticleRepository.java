@@ -17,9 +17,9 @@ public class ArticleRepository {
         makeArticleTestData(articles);
         lastId = articles.get(articles.size()-1).getId();
     }
-    public Article save(String title, String content) {
+    public Article save(String title, String content, int writerId) {
 
-        Article article = new Article(lastId,title, content);
+        Article article = new Article(lastId,title, content, writerId);
         System.out.println("생성된 객체 " + article);
         articles.add(article);
         return article;
@@ -41,7 +41,7 @@ public class ArticleRepository {
     }
     private  void makeArticleTestData(List<Article> article) {
         IntStream.rangeClosed(1,30)
-                .forEach(i-> articles.add(new Article(i,"제목"+i, "내용"+i)));
+                .forEach(i-> articles.add(new Article(i,"제목"+i, "내용"+i, 1)));
 
     }
 

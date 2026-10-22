@@ -3,8 +3,12 @@ package com.sbs.domain.article.global.base.controller;
 import com.sbs.domain.article.controller.ArticleController;
 import com.sbs.domain.article.dto.Article;
 import com.sbs.domain.article.global.base.container.Container;
+import com.sbs.domain.article.global.base.intercepter.Intercepter;
+import com.sbs.domain.article.global.base.intercepter.NeedLogOutIntercepter;
+import com.sbs.domain.article.global.base.intercepter.NeedLoginIntercepter;
 import com.sbs.domain.article.global.base.rq.Rq;
 import com.sbs.domain.member.controller.MemberController;
+import com.sbs.domain.member.member.dto.Member;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,12 +36,19 @@ public class SystemController {
 
         while(run) {
 
-            System.out.println("명령");
-            String cmd = Container.sc.nextLine();
+            String promptName = "명령";
+            if(rq.isLogined()) {
+                Member member = rq.getLoginedMember();
+                promptName = member.getUsername();
+            }
+            System.out.printf("%s) ",promptName);
+            String cmd = Container.sc.nextLine().trim();
 
             rq.setCommand(cmd);
             rq.getActionPath();
 
+           // System.out.println(runIntercepter(rq));
+            if(!runIntercepter(rq)) continue;
 
             if(rq.getUrl().trim().isEmpty()) {
                 System.out.println("명령어를 입력하세요");
@@ -90,5 +101,18 @@ public class SystemController {
         return null;
     }
 
+    public boolean runIntercepter(Rq rq) {
+        List<Intercepter> list = new ArrayList<>();
+
+        list.add(Container.needLoginIntercepter);
+        list.add(Container.needLogOutIntercepter);
+
+        for(Intercepter intercepter : list) {
+            if(!intercepter.run(rq))
+                return false;
+        }
+        return true;
+
+    }
 
 }

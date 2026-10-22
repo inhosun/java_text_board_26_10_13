@@ -21,8 +21,8 @@ public class ArticleService {
 
 
 
-    public Article write(String title, String content) {
-        return articleRepository.save(title, content);
+    public Article write(String title, String content, int writerId) {
+        return articleRepository.save(title, content, writerId);
     }
 
     public List<Article> getArticles() {

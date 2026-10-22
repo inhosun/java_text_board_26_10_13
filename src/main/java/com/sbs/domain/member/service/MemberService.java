@@ -19,6 +19,10 @@ public class MemberService {
         return memberRepository.findByUserName(username);
     }
 
+    public Member findById(int id) {
+        return memberRepository.findById(id);
+    }
+
     public Member login(String username, String password) {
         return memberRepository.login(username, password);
     }

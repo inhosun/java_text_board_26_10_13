@@ -1,6 +1,7 @@
 package com.sbs.domain.article.global.base.rq;
 
 import com.sbs.domain.article.global.Session.Session;
+import com.sbs.domain.member.member.dto.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -81,5 +82,9 @@ public class Rq {
 
     public boolean hasAttr(String key) {
         return session.hasAttribute(key);
+    }
+
+    public Member getLoginedMember() {
+        return (Member)getAttr("loginedMember");
     }
 }
